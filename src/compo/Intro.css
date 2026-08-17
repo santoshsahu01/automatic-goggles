@@ -1,0 +1,505 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: black;
+  font-family: "Courier New", monospace;
+}
+
+.home {
+  min-height: 100vh;
+  background: #000;
+  color: #00ff41;
+}
+
+/* ================= LOADING ================= */
+
+.loading {
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: #000;
+
+  color: #00ff41;
+
+  font-size: 20px;
+
+  letter-spacing: 3px;
+}
+
+.loading span {
+  animation: blink 0.8s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+
+/* ================= MATRIX ================= */
+
+.matrix-container {
+  position: relative;
+
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  background: #000;
+}
+
+
+/* ================= MATRIX RAIN ================= */
+
+.matrix-rain {
+  position: absolute;
+
+  inset: 0;
+
+  overflow: hidden;
+
+  opacity: 0.18;
+
+  pointer-events: none;
+}
+
+.matrix-rain span {
+  position: absolute;
+
+  top: -100px;
+
+  color: #00ff41;
+
+  font-size: 18px;
+
+  font-weight: bold;
+
+  writing-mode: vertical-rl;
+
+  animation: matrixFall linear infinite;
+}
+
+@keyframes matrixFall {
+
+  from {
+    transform: translateY(-100vh);
+  }
+
+  to {
+    transform: translateY(110vh);
+  }
+
+}
+
+
+/* ================= MAIN CONTENT ================= */
+
+.main-content {
+  position: relative;
+
+  z-index: 2;
+
+  width: 92%;
+
+  max-width: 1400px;
+
+  min-height: 100vh;
+
+  margin: auto;
+
+  padding: 70px 0;
+
+  display: grid;
+
+  grid-template-columns: 1.5fr 0.8fr;
+
+  gap: 35px;
+
+  align-items: center;
+}
+
+
+/* ================= TERMINAL ================= */
+
+.terminal {
+
+  min-height: 550px;
+
+  background: rgba(0, 10, 0, 0.94);
+
+  border: 1px solid #00ff41;
+
+  box-shadow:
+    0 0 10px #00ff41,
+    0 0 30px rgba(0, 255, 65, 0.15);
+
+  padding: 0 30px 30px;
+
+  animation: terminalAppear 0.8s ease;
+}
+
+@keyframes terminalAppear {
+
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+}
+
+
+/* ================= TERMINAL HEADER ================= */
+
+.terminal-header {
+
+  height: 50px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  border-bottom: 1px solid #063b13;
+
+}
+
+.terminal-header span {
+  font-size: 10px;
+}
+
+.terminal-header strong {
+
+  margin-left: 10px;
+
+  font-weight: normal;
+
+}
+
+
+/* ================= TERMINAL TEXT ================= */
+
+pre {
+
+  margin-top: 30px;
+
+  white-space: pre-wrap;
+
+  font-family: "Courier New", monospace;
+
+  font-size: 16px;
+
+  line-height: 1.6;
+
+  color: #00ff41;
+
+  text-shadow:
+    0 0 5px #00ff41,
+    0 0 10px rgba(0, 255, 65, 0.4);
+}
+
+.cursor {
+
+  animation: cursorBlink 0.7s infinite;
+
+}
+
+@keyframes cursorBlink {
+
+  50% {
+    opacity: 0;
+  }
+
+}
+
+
+/* ================= CONTACT BOX ================= */
+
+.contact-box {
+
+  background: rgba(0, 10, 0, 0.95);
+
+  border: 1px solid #00ff41;
+
+  padding: 25px;
+
+  box-shadow:
+    0 0 10px rgba(0, 255, 65, 0.5),
+    inset 0 0 20px rgba(0, 255, 65, 0.03);
+
+  animation: contactAppear 1s ease;
+}
+
+@keyframes contactAppear {
+
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+}
+
+
+/* ================= CONTACT HEADER ================= */
+
+.contact-header {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding-bottom: 18px;
+
+  margin-bottom: 20px;
+
+  border-bottom: 1px solid #063b13;
+
+  letter-spacing: 2px;
+}
+
+.contact-header span {
+  font-size: 10px;
+}
+
+
+/* ================= FORM ================= */
+
+.contact-box form {
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 9px;
+}
+
+.contact-box label {
+
+  margin-top: 5px;
+
+  font-size: 12px;
+
+  color: #00cc36;
+
+}
+
+
+/* ================= INPUT ================= */
+
+.contact-box input,
+.contact-box textarea {
+
+  width: 100%;
+
+  padding: 12px;
+
+  background: #000;
+
+  color: #00ff41;
+
+  border: 1px solid #075d1c;
+
+  outline: none;
+
+  font-family: "Courier New", monospace;
+
+  font-size: 13px;
+
+}
+
+.contact-box textarea {
+
+  resize: vertical;
+
+}
+
+
+/* INPUT FOCUS */
+
+.contact-box input:focus,
+.contact-box textarea:focus {
+
+  border-color: #00ff41;
+
+  box-shadow:
+    0 0 8px rgba(0, 255, 65, 0.4);
+
+}
+
+.contact-box input::placeholder,
+.contact-box textarea::placeholder {
+
+  color: #397b48;
+
+}
+
+
+/* ================= BUTTON ================= */
+
+.contact-box button {
+
+  margin-top: 12px;
+
+  padding: 13px;
+
+  background: #00ff41;
+
+  color: #000;
+
+  border: 1px solid #00ff41;
+
+  cursor: pointer;
+
+  font-family: "Courier New", monospace;
+
+  font-weight: bold;
+
+  letter-spacing: 1px;
+
+  transition: 0.25s;
+
+}
+
+.contact-box button:hover {
+
+  background: #000;
+
+  color: #00ff41;
+
+  box-shadow:
+    0 0 15px #00ff41;
+
+}
+
+
+/* ================= CONTACT DETAILS ================= */
+
+.contact-details {
+
+  margin-top: 25px;
+
+  padding-top: 18px;
+
+  border-top: 1px solid #063b13;
+
+}
+
+.contact-details div {
+
+  margin-bottom: 12px;
+
+}
+
+.contact-details small {
+
+  color: #008f27;
+
+  font-size: 10px;
+
+}
+
+.contact-details p {
+
+  margin: 3px 0;
+
+  font-size: 12px;
+
+  word-break: break-word;
+
+}
+
+
+/* ================= MOBILE ================= */
+
+@media (max-width: 900px) {
+
+  .main-content {
+
+    grid-template-columns: 1fr;
+
+    width: 94%;
+
+    padding: 30px 0 50px;
+
+  }
+
+  .terminal {
+
+    min-height: auto;
+
+  }
+
+  pre {
+
+    font-size: 13px;
+
+  }
+
+  .contact-box {
+
+    width: 100%;
+
+  }
+
+}
+
+@media (max-width: 500px) {
+
+  .terminal {
+
+    padding: 0 15px 20px;
+
+  }
+.form-status {
+  margin-top: 15px;
+  padding: 10px;
+
+  border: 1px solid #00ff41;
+
+  color: #00ff41;
+
+  text-align: center;
+
+  font-family: "Courier New", monospace;
+
+  font-size: 12px;
+
+  text-shadow: 0 0 5px #00ff41;
+}
+
+.contact-box button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+  pre {
+
+    font-size: 11px;
+
+  }
+
+  .contact-box {
+
+    padding: 18px;
+
+  }
+
+}
