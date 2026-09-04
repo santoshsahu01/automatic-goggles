@@ -79,6 +79,24 @@ function Home() {
     return () => clearInterval(typing);
   }, [showIntro]);
 
+  // LOAD LINKEDIN PROFILE SCRIPT
+  useEffect(() => {
+    const script = document.createElement("script");
+
+    script.src =
+      "https://platform.linkedin.com/badges/js/profile.js";
+
+    script.async = true;
+    script.defer = true;
+    script.type = "text/javascript";
+
+    document.body.appendChild(script);
+
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
+
   // HANDLE INPUT
   const handleChange = ({ target }) => {
     setFormData((prev) => ({
@@ -115,6 +133,7 @@ function Home() {
 
     } catch (error) {
       console.error(error);
+
       setStatus("✕ FAILED TO SEND MESSAGE");
 
     } finally {
@@ -174,7 +193,25 @@ function Home() {
                 <span className="cursor">█</span>
               </pre>
 
+              {/* LINKEDIN PROFILE */}
+              <div className="linkedin-profile">
+
+                <h3>LINKEDIN PROFILE</h3>
+
+                <div
+                  className="badge-base LI-profile-badge"
+                  data-locale="en_US"
+                  data-size="medium"
+                  data-theme="dark"
+                  data-type="VERTICAL"
+                  data-vanity="sanntoosh"
+                  data-version="v1"
+                ></div>
+
+              </div>
+
             </div>
+
 
             {/* CONTACT FORM */}
             <div className="contact-box">
@@ -241,12 +278,14 @@ function Home() {
 
               </form>
 
+
               {/* CONTACT INFO */}
               <div className="contact-details">
 
                 <p>
                   EMAIL
                   <br />
+
                   <span>
                     theboysantosh@gmail.com
                   </span>
@@ -255,6 +294,7 @@ function Home() {
                 <p>
                   MOBILE
                   <br />
+
                   <span>
                     9754512002
                   </span>
@@ -274,7 +314,7 @@ function Home() {
 }
 
 
-// REUSABLE INPUT COMPONENT
+// REUSABLE INPUT
 function Input({
   label,
   name,
@@ -304,3 +344,4 @@ function Input({
 
 
 export default Home;
+
