@@ -1,3 +1,4 @@
+
 import "./Intro.css";
 import { useEffect, useState } from "react";
 import emailjs from "@emailjs/browser";
@@ -5,6 +6,8 @@ import emailjs from "@emailjs/browser";
 function Home() {
   const [showIntro, setShowIntro] = useState(false);
   const [displayText, setDisplayText] = useState("");
+  const [sending, setSending] = useState(false);
+  const [status, setStatus] = useState("");
 
   const [formData, setFormData] = useState({
     name: "",
@@ -13,8 +16,15 @@ function Home() {
     message: "",
   });
 
-  const [sending, setSending] = useState(false);
-  const [status, setStatus] = useState("");
+  // MATRIX CHARACTERS
+  const [matrixRain] = useState(() =>
+    Array.from({ length: 80 }, () => ({
+      left: Math.random() * 100,
+      delay: Math.random() * 5,
+      duration: 3 + Math.random() * 5,
+      text: Math.random() > 0.5 ? "01" : "10",
+    }))
+  );
 
   const introText = `
 > INITIALIZING PROFILE...
@@ -28,11 +38,12 @@ function Home() {
 │ Email  : theboysantosh@gmail.com            │
 │ Mobile : 9754512002                         │
 │                                             │
-│ Stack:                                      │
-│   Node.js   •   Express.js                  │
-│   React.js  •   PostgreSQL                  │
-│   MySQL     •   JavaScript                  │
-│   HTML      •   CSS                         │
+│ STACK                                       │
+│                                             │
+│ Node.js   •   Express.js                    │
+│ React.js  •   PostgreSQL                    │
+│ MySQL     •   JavaScript                    │
+│ HTML      •   CSS                           │
 │                                             │
 │ Building modern web applications,           │
 │ APIs, databases and full-stack systems.     │
@@ -41,10 +52,7 @@ function Home() {
 > SYSTEM READY_
 `;
 
-  // ===============================
-  // SHOW INTRO AFTER 2 SECONDS
-  // ===============================
-
+  // SHOW INTRO
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowIntro(true);
@@ -53,10 +61,7 @@ function Home() {
     return () => clearTimeout(timer);
   }, []);
 
-  // ===============================
   // TYPING EFFECT
-  // ===============================
-
   useEffect(() => {
     if (!showIntro) return;
 
@@ -64,32 +69,25 @@ function Home() {
 
     const typing = setInterval(() => {
       setDisplayText(introText.slice(0, index));
-
       index++;
 
       if (index > introText.length) {
         clearInterval(typing);
       }
-    }, 20);
+    }, 15);
 
     return () => clearInterval(typing);
   }, [showIntro]);
 
-  // ===============================
-  // INPUT CHANGE
-  // ===============================
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  // HANDLE INPUT
+  const handleChange = ({ target }) => {
+    setFormData((prev) => ({
+      ...prev,
+      [target.name]: target.value,
+    }));
   };
 
-  // ===============================
-  // EMAILJS SUBMIT
-  // ===============================
-
+  // SEND EMAIL
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -97,26 +95,17 @@ function Home() {
     setStatus("");
 
     try {
-      const result = await emailjs.send(
+      await emailjs.send(
         "service_q9lnecw",
         "template_gy23wkz",
-        {
-          name: formData.name,
-          email: formData.email,
-          mobile: formData.mobile,
-          message: formData.message,
-        },
+        formData,
         {
           publicKey: "gLO2MHFwLBZvl3JMt",
         }
       );
 
-      console.log("EmailJS:", result);
-
-      // SUCCESS
       setStatus("✓ MESSAGE SENT SUCCESSFULLY");
 
-      // Clear form
       setFormData({
         name: "",
         email: "",
@@ -125,8 +114,7 @@ function Home() {
       });
 
     } catch (error) {
-      console.error("EmailJS error:", error);
-
+      console.error(error);
       setStatus("✕ FAILED TO SEND MESSAGE");
 
     } finally {
@@ -137,156 +125,97 @@ function Home() {
   return (
     <div className="home">
 
-      {/* ===============================
-          LOADING
-      =============================== */}
-
+      {/* LOADING SCREEN */}
       {!showIntro && (
         <div className="loading">
-          <span>LOADING SYSTEM...</span>
+          <h2>LOADING SYSTEM...</h2>
         </div>
       )}
 
+      {/* MAIN PORTFOLIO */}
       {showIntro && (
         <div className="matrix-container">
 
-          {/* ===============================
-              MATRIX BACKGROUND
-          =============================== */}
-
+          {/* MATRIX BACKGROUND */}
           <div className="matrix-rain">
-
-            {Array.from({ length: 80 }).map(
-              (_, index) => (
-
-                <span
-                  key={index}
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    animationDelay:
-                      `${Math.random() * 5}s`,
-                    animationDuration:
-                      `${3 + Math.random() * 5}s`,
-                  }}
-                >
-                  {Math.random() > 0.5
-                    ? "01"
-                    : "10"}
-                </span>
-
-              )
-            )}
-
+            {matrixRain.map((item, index) => (
+              <span
+                key={index}
+                style={{
+                  left: `${item.left}%`,
+                  animationDelay: `${item.delay}s`,
+                  animationDuration: `${item.duration}s`,
+                }}
+              >
+                {item.text}
+              </span>
+            ))}
           </div>
-
-          {/* ===============================
-              TWO COLUMN CONTENT
-          =============================== */}
 
           <div className="main-content">
 
-            {/* ===============================
-                LEFT TERMINAL
-            =============================== */}
-
+            {/* TERMINAL PROFILE */}
             <div className="terminal">
 
               <div className="terminal-header">
-
-                <span>●</span>
-                <span>●</span>
-                <span>●</span>
+                <div>
+                  <span>●</span>
+                  <span>●</span>
+                  <span>●</span>
+                </div>
 
                 <strong>
                   santosh@portfolio:~
                 </strong>
-
               </div>
 
               <pre>
                 {displayText}
+                <span className="cursor">█</span>
               </pre>
-
-              <span className="cursor">
-                █
-              </span>
 
             </div>
 
-            {/* ===============================
-                RIGHT CONTACT
-            =============================== */}
-
+            {/* CONTACT FORM */}
             <div className="contact-box">
 
               <div className="contact-header">
-
                 <span>●</span>
-
-                <strong>
-                  CONTACT_ME
-                </strong>
-
+                <strong>CONTACT_ME</strong>
               </div>
 
               <form onSubmit={handleSubmit}>
 
-                {/* NAME */}
-
-                <label htmlFor="name">
-                  NAME
-                </label>
-
-                <input
-                  id="name"
+                <Input
+                  label="NAME"
                   name="name"
                   type="text"
+                  placeholder="Enter your name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="Enter your name"
-                  required
                 />
 
-                {/* EMAIL */}
-
-                <label htmlFor="email">
-                  EMAIL
-                </label>
-
-                <input
-                  id="email"
+                <Input
+                  label="EMAIL"
                   name="email"
                   type="email"
+                  placeholder="Enter your email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="Enter your email"
-                  required
                 />
 
-                {/* MOBILE */}
-
-                <label htmlFor="mobile">
-                  MOBILE
-                </label>
-
-                <input
-                  id="mobile"
+                <Input
+                  label="MOBILE"
                   name="mobile"
                   type="tel"
+                  placeholder="Enter your mobile"
                   value={formData.mobile}
                   onChange={handleChange}
-                  placeholder="Enter your mobile"
-                  required
                 />
 
-                {/* MESSAGE */}
-
-                <label htmlFor="message">
-                  MESSAGE
-                </label>
+                <label>MESSAGE</label>
 
                 <textarea
-                  id="message"
                   name="message"
                   rows="5"
                   value={formData.message}
@@ -294,8 +223,6 @@ function Home() {
                   placeholder="Write your message..."
                   required
                 />
-
-                {/* BUTTON */}
 
                 <button
                   type="submit"
@@ -306,8 +233,6 @@ function Home() {
                     : "SEND MESSAGE →"}
                 </button>
 
-                {/* STATUS */}
-
                 {status && (
                   <div className="form-status">
                     {status}
@@ -316,8 +241,7 @@ function Home() {
 
               </form>
 
-              {/* CONTACT DETAILS */}
-
+              {/* CONTACT INFO */}
               <div className="contact-details">
 
                 <p>
@@ -348,5 +272,35 @@ function Home() {
     </div>
   );
 }
+
+
+// REUSABLE INPUT COMPONENT
+function Input({
+  label,
+  name,
+  type,
+  placeholder,
+  value,
+  onChange,
+}) {
+  return (
+    <>
+      <label htmlFor={name}>
+        {label}
+      </label>
+
+      <input
+        id={name}
+        name={name}
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={onChange}
+        required
+      />
+    </>
+  );
+}
+
 
 export default Home;
